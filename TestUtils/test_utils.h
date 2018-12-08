@@ -19,6 +19,7 @@ int NodeTextDump(struct NodeStr * node);
 
 int WriteDigraphFile(const char * filename, struct NodeStr * node);
 int WriteNodeToDigraph(FILE * dump_file, struct NodeStr * node);
+int WriteNodeIds(FILE * dump_file, struct NodeStr * node);
 
 int WriteTreeStruct(const char * filename, struct NodeStr * node);
 int WriteNodes(FILE * tree_struct, struct NodeStr * node);

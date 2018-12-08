@@ -69,6 +69,7 @@ struct NodeStr{
     Node * right;
     Node * parent;
     struct TreeStr * tree;
+    size_t id;
 };
 
 int CreateNode(Node ** node, elem_t val, DATA_TYPE type, struct TreeStr * tree);

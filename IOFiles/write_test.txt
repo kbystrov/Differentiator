@@ -1,8 +1,16 @@
 digraph Tree {
 graph[bgcolor = cornsilk]
 node[color = blue]
-"/"->"-"->15
-"-"->7->"*"
-"/"->"+"->x
-"+"->3
+8 [label="/"];
+9 [label="-"];
+10 [label="15"];
+11 [label="7"];
+12 [label="*"];
+13 [label="+"];
+14 [label="x"];
+15 [label="3"];
+8->9->10
+9->11->12
+8->13->14
+13->15
 }

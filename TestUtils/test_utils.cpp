@@ -92,14 +92,76 @@ int WriteDigraphFile(const char * filename, Node * node) {
         printf("Node is nullptr.\n");
         return err_code;
     } else if (err_code){
+        #ifndef NDEBUG
         err_code = NodeTextDump(node);
+        #endif
+        return err_code;
     }
 
-    WriteNodeToDigraph(dump_file, node);
+    err_code = WriteNodeIds(dump_file, node);
+    if(err_code){
+        return err_code;
+    }
+    err_code = WriteNodeToDigraph(dump_file, node);
+    if(err_code){
+        return err_code;
+    }
 
     fprintf(dump_file, "}");
 
     fclose(dump_file);
+
+    return err_code;
+}
+
+int WriteNodeIds(FILE * dump_file, Node * node) {
+    int err_code = 0;
+
+    if(dump_file == nullptr){
+        return 666;
+    }
+
+    if (node == nullptr){
+        return 666;
+    }
+    if (node->type == OPERATOR){
+        const char * oper_name = nullptr;
+        err_code = GetOperName(node->val, &oper_name);
+        if(err_code){
+            return err_code;
+        }
+        fprintf(dump_file, "%zu [label=\"%s\"];\n", node->id, oper_name);
+    } else if (node->type == VALUE) {
+        fprintf(dump_file, "%zu [label=\"%lg\"];\n", node->id, node->val);
+    } else {
+        const char * var_name = nullptr;
+        err_code = GetVarName(node->val, &var_name);
+        if(err_code){
+            return err_code;
+        }
+        fprintf(dump_file, "%zu [label=\"%s\"];\n", node->id, var_name);
+    }
+
+    if(node->left && node->right){
+        err_code = WriteNodeIds(dump_file, node->left);
+        if(err_code){
+            return err_code;
+        }
+        err_code = WriteNodeIds(dump_file, node->right);
+        if(err_code){
+            return err_code;
+        }
+    } else if (node->left){
+        err_code = WriteNodeIds(dump_file, node->left);
+        if(err_code){
+            return err_code;
+        }
+    } else if (node->right){
+        err_code = WriteNodeIds(dump_file, node->right);
+        if(err_code){
+            return err_code;
+        }
+    }
 
     return err_code;
 }
@@ -115,51 +177,31 @@ int WriteNodeToDigraph(FILE * dump_file, Node * node) {
         return 666;
     }
 
-    if (node->type == OPERATOR){
-        const char * oper_name = nullptr;
-        err_code = GetOperName(node->val, &oper_name);
-        if(err_code){
-            return err_code;
-        }
-        fprintf(dump_file, "\"%s\"", oper_name);
-    } else if (node->type == VALUE) {
-        fprintf(dump_file, "%lg", node->val);
-    } else {
-        const char * var_name = nullptr;
-        err_code = GetVarName(node->val, &var_name);
-        if(err_code){
-            return err_code;
-        }
-        fprintf(dump_file, "%s", var_name);
-    }
+    fprintf(dump_file, "%zu", node->id);
 
     if(node->left && node->right){
         fprintf(dump_file, "->");
-        WriteNodeToDigraph(dump_file, node->left);
-        if (node->type == OPERATOR){
-            const char * oper_name = nullptr;
-            err_code = GetOperName(node->val, &oper_name);
-            if(err_code){
-                return err_code;
-            }
-            fprintf(dump_file, "\"%s\"->", oper_name);
-        } else if (node->type == VALUE) {
-            fprintf(dump_file, "%lg->", node->val);
-        } else {
-            const char * var_name = nullptr;
-            err_code = GetVarName(node->val, &var_name);
-            if(err_code){
-                return err_code;
-            }
-            fprintf(dump_file, "\"%s\"->", var_name);
+        err_code = WriteNodeToDigraph(dump_file, node->left);
+        if (err_code){
+            return err_code;
         }
-        WriteNodeToDigraph(dump_file, node->right);
+        fprintf(dump_file, "%zu->", node->id);
+        err_code = WriteNodeToDigraph(dump_file, node->right);
+        if (err_code){
+            return err_code;
+        }
     } else if(node->left){
         fprintf(dump_file, "->");
-        WriteNodeToDigraph(dump_file, node->left);
+        err_code = WriteNodeToDigraph(dump_file, node->left);
+        if (err_code){
+            return err_code;
+        }
     } else if (node->right) {
         fprintf(dump_file, "->");
-        WriteNodeToDigraph(dump_file, node->right);
+        err_code = WriteNodeToDigraph(dump_file, node->right);
+        if (err_code){
+            return err_code;
+        }
     } else {
         fprintf(dump_file, "\n");
     }

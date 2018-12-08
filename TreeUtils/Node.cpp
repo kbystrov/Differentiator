@@ -4,6 +4,7 @@
 /** @file */
 
 int CreateNode(Node ** node, elem_t val, DATA_TYPE type, Tree * tree) {
+    static size_t id = 0;
 
     if (node == nullptr){
         return ERR_CRT_NODE_IN;
@@ -30,6 +31,7 @@ int CreateNode(Node ** node, elem_t val, DATA_TYPE type, Tree * tree) {
     new_node->type = type;
     tree->nodes_num++;
     new_node->tree = tree;
+    new_node->id = id++;
 
     *node = new_node;
 

@@ -137,49 +137,7 @@ int AddNodeToTree(char * buf, Node * parent, size_t par_level, char ** ret_pos) 
         //!Make the same for next child
         left -= 1;
     }
-    /*
-    //!Parsing char array and getting the position of next node value in it in ret_pos
-    err_code = GetNextNodeFromFile(buf, par_level, ret_pos, 1);
-    if(err_code){
-        return err_code;
-    }
-    buf = *ret_pos;
-    //!Creating node, add it as child to input parent node with value read from input buf array and return the position after it in ret_pos
-    err_code = CreateNodeFromFile(&node, parent, buf, ret_pos, 1);
-    if(err_code){
-        if (err_code == ERR_CPY_STR_LEN){
-            buf = *ret_pos;
-            err_code = GetNextNodeFromFile(buf, par_level, ret_pos, 1);
-            if(err_code != ERR_GET_NODE_FILE_BACK_BRACKET){
-                return err_code;
-            }
-        } else {
-            return err_code;
-        }
-    }
-    buf = *ret_pos;
-    //!Recursively call this function for find children
-    if (err_code != ERR_GET_NODE_FILE_BACK_BRACKET){
-        AddNodeToTree(buf, node, par_level + 1, ret_pos);
-        buf = *ret_pos;
-    }
-
-    //!Parsing char array and getting the position of next node value in it in ret_pos
-    err_code = GetNextNodeFromFile(buf, par_level, ret_pos, 0);
-    if(err_code){
-        return err_code;
-    }
-    buf = *ret_pos;
-    //!Creating node, add it as child to input parent node with value read from input buf array and return the position after it in ret_pos
-    Node * node2 = nullptr;
-    err_code = CreateNodeFromFile(&node2, parent, buf, ret_pos, 0);
-    if(err_code){
-        return err_code;
-    }
-    buf = *ret_pos;
-    //!Recursively call this function for find children
-    AddNodeToTree(buf, node2, par_level + 1, ret_pos);
-    */
+  
     return err_code;
 }
 
