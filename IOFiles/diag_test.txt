@@ -1,0 +1,8 @@
+digraph Tree {
+graph[bgcolor = cornsilk]
+node[color = blue]
+"/"->"-"->15
+"-"->7->"*"
+"/"->"+"->x
+"+"->3
+}
