@@ -54,10 +54,6 @@ int CopySubTree(Node * node_src, Node ** node_dest, Node * dest_parent, bool_t l
 int DifferSubTree(Node * node_src, Node ** node_dest, Node * dest_parent, bool_t left) {
     int err_code = 0;
     Node * new_node = nullptr;
-    Node * left_child_deriv = nullptr;
-    Node * left_child_copy = nullptr;
-    Node * right_child_deriv = nullptr;
-    Node * right_child_copy = nullptr;
     Node * op_left = nullptr;
     Node * op_right = nullptr;
 
@@ -87,16 +83,6 @@ int DifferSubTree(Node * node_src, Node ** node_dest, Node * dest_parent, bool_t
                 }
 
                 CheckNode(new_node);
-                /*
-                err_code = DifferSubTree(node_src->left, &new_node->left, new_node, 1);
-                CHECK_ERROR;
-                */
-                //differ(node_src->left, &new_node->left, new_node, 1);
-                /*
-                err_code = DifferSubTree(node_src->right, &new_node->right, new_node, 0);
-                CHECK_ERROR;
-                */
-                //differ(node_src->right, &new_node->right, new_node, 0);
                 op_commut(node_src, new_node, new_node);
 
                 break;
@@ -123,22 +109,14 @@ int DifferSubTree(Node * node_src, Node ** node_dest, Node * dest_parent, bool_t
                 CHECK_ERROR;
                 CheckNode(new_node->right);
                 op_right = new_node->right;
+                /*
+                differ(node_src->left, &op_left->left, op_left, 1);
+                copy(node_src->right, &op_left->right, op_left, 0);
+                copy(node_src->left, &op_right->left , op_right, 1);
+                differ(node_src->right, &op_right->right, op_right, 0);
+                */
 
-                err_code = DifferSubTree(node_src->left, &left_child_deriv, op_left, 1);
-                CHECK_ERROR;
-                op_left->left = left_child_deriv;
-
-                err_code = CopySubTree(node_src->right, &right_child_copy, op_left, 0);
-                CHECK_ERROR;
-                op_left->right = right_child_copy;
-
-                err_code = CopySubTree(node_src->right, &left_child_copy, op_right, 1);
-                CHECK_ERROR;
-                op_right->left = left_child_copy;
-
-                err_code = DifferSubTree(node_src->right, &right_child_deriv, op_right, 0);
-                CHECK_ERROR;
-                op_right->right = right_child_deriv;
+                op_sub_muls(node_src, op_left, op_right);
 
                 break;
 
