@@ -17,7 +17,7 @@ int main() {
     err_code = CreateTree(&diff_tree, TREE_NODES);
     CHECK_ERROR;
     //! ++++++++++++++ Creating digraph from Tree struct test ++++++++++++++++++++++++++++
-    err_code = CreateNode(&tree->root, OP_ADD, OPERATOR, tree);
+    err_code = CreateNode(&tree->root, OP_MUL, OPERATOR, tree);
     CHECK_ERROR;
 
     err_code = AddChild(tree->root, OP_SUB, OPERATOR, 1);
@@ -62,22 +62,11 @@ int main() {
 
     //! ++++++++++++++ Differentiator test ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    err_code = CpyNode(tree->root, &diff_tree->root, diff_tree);
+    //err_code = DifferTreeRoot(tree->root, diff_tree);
+    //CHECK_ERROR;
+    err_code = DifferSubTree(tree->root, &diff_tree->root, NULL, diff_tree, 1);
     CHECK_ERROR;
 
-    err_code = DifferSubTree(tree->root->left, &diff_tree->root->left, diff_tree->root, 1);
-    CHECK_ERROR;
-
-    err_code = DifferSubTree(tree->root->right, &diff_tree->root->right, diff_tree->root, 0);
-    CHECK_ERROR;
-
-    /*
-    err_code = CopySubTree(tree->root->left, &diff_tree->root->left, diff_tree->root, 1);
-    CHECK_ERROR;
-
-    err_code = CopySubTree(tree->root->right, &diff_tree->root->right, diff_tree->root, 0);
-    CHECK_ERROR;
-    */
     err_code = WriteDigraphFile("IOFiles/diff_test.txt", diff_tree->root);
     CHECK_ERROR;
     err_code = WriteTreeStruct("IOFiles/diff_struct.txt", diff_tree->root);

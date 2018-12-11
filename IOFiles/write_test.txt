@@ -1,7 +1,7 @@
 digraph Tree {
 graph[bgcolor = cornsilk]
 node[color = blue]
-8 [label="+"];
+8 [label="*"];
 9 [label="-"];
 10 [label="15"];
 11 [label="7"];
