@@ -83,7 +83,7 @@ int AddRootFromFile(Tree * tree, char * buf, char ** ret_pos) {
 
 int AddNodeToTree(char * buf, Node * parent, size_t par_level, char ** ret_pos) {
     int err_code = 0;
-    int i = 0;
+    size_t i = 0;
     bool_t left = CHILD_NODE - 1;
 
     //!Checking input parameters
@@ -137,7 +137,7 @@ int AddNodeToTree(char * buf, Node * parent, size_t par_level, char ** ret_pos) 
         //!Make the same for next child
         left -= 1;
     }
-  
+
     return err_code;
 }
 

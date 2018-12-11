@@ -75,5 +75,6 @@ struct NodeStr{
 int CreateNode(Node ** node, elem_t val, DATA_TYPE type, struct TreeStr * tree);
 int AddChild(Node * parent, elem_t val, DATA_TYPE type, bool_t left);
 int DeleteNode(Node * node);
+int CpyNode(Node * node_src, Node ** node_dest, struct TreeStr * dest_tree);
 
 #endif //DIFFERENTIATOR_NODE_H

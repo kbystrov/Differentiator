@@ -13,16 +13,44 @@ int NodeOk(Node * node) {
         return ERR_NODE_OK_TREE;
     }
 
-    if(node->right && node->right->parent != node){
-        return ERR_NODE_OK_PAR_RGHT;
+    if(node->right){
+
+        if(node->right->parent != node){
+            return ERR_NODE_OK_PAR_RGHT;
+        }
+
+        if(node->type != OPERATOR){
+            return ERR_NODE_OK_TYPE;
+        }
+
     }
 
-    if(node->left && node->left->parent != node){
-        return ERR_NODE_OK_PAR_LEFT;
+    if(node->left){
+
+        if(node->left->parent != node){
+            return ERR_NODE_OK_PAR_LEFT;
+        }
+
+        if(node->type != OPERATOR){
+            return ERR_NODE_OK_TYPE;
+        }
+
     }
 
-    if(node->parent && node != node->parent->left && node != node->parent->right){
-        return ERR_NODE_OK_PAR;
+    if(node->parent){
+
+        if(node != node->parent->left && node != node->parent->right){
+            return ERR_NODE_OK_PAR;
+        }
+
+        if(node->parent->type == VALUE || node->parent->type == VARIABLE){
+            return ERR_NODE_OK_PAR_TYPE;
+        }
+
+    }
+
+    if(node->type == NONE){
+        return ERR_NODE_OK_NONE;
     }
 
     return 0;

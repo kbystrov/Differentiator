@@ -13,7 +13,10 @@ const int ERR_NODE_OK_NODE = 5;
 const int ERR_NODE_OK_TREE = 6;
 const int ERR_NODE_OK_PAR_RGHT = 7;
 const int ERR_NODE_OK_PAR_LEFT = 8;
-const int ERR_NODE_OK_PAR = 9;
+const int ERR_NODE_OK_TYPE = 9;
+const int ERR_NODE_OK_PAR = 10;
+const int ERR_NODE_OK_PAR_TYPE = 11;
+const int ERR_NODE_OK_NONE = 12;
 
 const int ERR_ADD_CHLD_PAR = 10;
 const int ERR_ADD_CHLD_PAR_TREE = 11;
@@ -58,5 +61,13 @@ const int ERR_GET_NODE_FILE_BACK_BRACKET = 38;
 const int ERR_CPY_STR_BUF = 39;
 const int ERR_CPY_STR_RES = 40;
 const int ERR_CPY_STR_LEN = 41;
+
+const int ERR_CPY_NODE_DEST = 111;
+
+const int ERR_CPY_SUB_TREE_DEST = 155;
+const int ERR_CPY_SUB_TREE_CHILD = 156;
+
+const int ERR_DIFF_NODE_TREE = 122;
+const int ERR_DIFF_NODE_DEST = 123;
 
 #endif //DIFFERENTIATOR_ERR_CODES_H
