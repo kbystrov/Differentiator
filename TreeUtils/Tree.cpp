@@ -87,13 +87,7 @@ int AddNodeToTree(char * buf, Node * parent, size_t par_level, char ** ret_pos) 
     bool_t left = CHILD_NODE - 1;
 
     //!Checking input parameters
-    err_code = NodeOk(parent);
-    if(err_code){
-        #ifndef NDEBUG
-        NodeTextDump(parent);
-        #endif
-        return err_code;
-    }
+    CheckNode(parent);
 
     if (buf == nullptr){
         return 666;
@@ -149,13 +143,7 @@ int DeleteTree(Tree * tree) {
     }
 
     if(tree->root){
-        err_code = NodeOk(tree->root);;
-        if(err_code){
-            #ifndef NDEBUG
-            NodeTextDump(tree->root);
-            #endif
-            return err_code;
-        }
+        CheckNode(tree->root);
         err_code = DeleteNode(tree->root);
     }
 
@@ -188,9 +176,7 @@ int CreateTreeFromFile(Tree ** tree, const char * filename) {
     }
 
     err_code = CreateTree(&new_tree, TREE_NODES);
-    if(err_code){
-        return err_code;
-    }
+    CHECK_ERROR;
 
     //! Get the length of the input file in bytes, allocate the same size buffer and read input file into it
     fseek(tree_struct, 0, SEEK_END);

@@ -158,10 +158,7 @@ int CreateNodeFromFile(Node ** node, Node * parent, char * buf, char ** ret_pos,
         return 666;
     }
 
-    err_code = NodeOk(parent);
-    if(err_code){
-        return err_code;
-    }
+    CheckNode(parent);
 
     if(buf == nullptr){
         return 666;

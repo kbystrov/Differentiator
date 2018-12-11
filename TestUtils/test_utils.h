@@ -10,6 +10,21 @@
 
 /** @file */
 
+#ifndef NDEBUG
+#define CheckNode(node) \
+    err_code = NodeOk(node); \
+    if(err_code){ \
+        err_code = NodeTextDump(node); \
+        return err_code; \
+    }
+#else
+#define CheckNode(node) \
+    err_code = NodeOk(node); \
+    if(err_code){ \
+        return err_code; \
+    }
+#endif
+
 static const char * digraph_mask = "digraph Tree {\ngraph[bgcolor = cornsilk]\nnode[color = blue]\n";
 
 const int BRACE_SPACE_NUM = 4;

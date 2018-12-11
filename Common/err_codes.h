@@ -4,6 +4,11 @@
 
 /** @file */
 
+#define CHECK_ERROR \
+    if(err_code){ \
+        return err_code; \
+    }
+
 const int ERR_CRT_NODE_IN = 1;
 const int ERR_CRT_NODE_TREE = 2;
 const int ERR_CRT_NODE_TREE_NUM = 3;
@@ -63,11 +68,12 @@ const int ERR_CPY_STR_RES = 40;
 const int ERR_CPY_STR_LEN = 41;
 
 const int ERR_CPY_NODE_DEST = 111;
+const int ERR_CPY_NODE_TREE = 112;
 
 const int ERR_CPY_SUB_TREE_DEST = 155;
 const int ERR_CPY_SUB_TREE_CHILD = 156;
 
-const int ERR_DIFF_NODE_TREE = 122;
-const int ERR_DIFF_NODE_DEST = 123;
+const int ERR_DIFF_SUB_TREE_DEST = 123;
+const int ERR_DIFF_SUB_TREE_OPER = 124;
 
 #endif //DIFFERENTIATOR_ERR_CODES_H

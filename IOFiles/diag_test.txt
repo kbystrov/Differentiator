@@ -1,11 +1,11 @@
 digraph Tree {
 graph[bgcolor = cornsilk]
 node[color = blue]
-0 [label="/"];
+0 [label="+"];
 1 [label="-"];
 3 [label="15"];
 4 [label="7"];
-2 [label="+"];
+2 [label="*"];
 5 [label="x"];
 6 [label="3"];
 0->1->3

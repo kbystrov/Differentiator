@@ -7,4 +7,6 @@ OP_DEF(SUB, -, 1)
 OP_DEF(MUL, *, 2)
 OP_DEF(DIV, /, 3)
 OP_DEF(POW, ^, 4)
+OP_DEF(EXP, exp, 5)
+OP_DEF(LN, ln, 6)
 

@@ -127,13 +127,9 @@ int WriteDigraphFile(const char * filename, Node * node) {
     }
 
     err_code = WriteNodeIds(dump_file, node);
-    if(err_code){
-        return err_code;
-    }
+    CHECK_ERROR;
     err_code = WriteNodeToDigraph(dump_file, node);
-    if(err_code){
-        return err_code;
-    }
+    CHECK_ERROR;
 
     fprintf(dump_file, "}");
 
