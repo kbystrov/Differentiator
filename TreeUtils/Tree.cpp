@@ -109,15 +109,14 @@ int AddNodeToTree(char * buf, Node * parent, size_t par_level, char ** ret_pos) 
         //!Creating node, add it as child to input parent node with value read from input buf array and return the position after it in ret_pos
         err_code = CreateNodeFromFile(&node, parent, buf, ret_pos, left);
         if(err_code){
-            //!Special case for empty left child and not empty right child
-            if (left && err_code == ERR_CPY_STR_LEN){
+            //!Special case for empty right child and not empty left child
+            if (!left && err_code == ERR_CPY_STR_LEN){
                 buf = *ret_pos;
                 err_code = GetNextNodeFromFile(buf, par_level, ret_pos, left);
                 if(err_code != ERR_GET_NODE_FILE_BACK_BRACKET){
                     return err_code;
                 } else {
                     buf = *ret_pos;
-                    left -= 1;
                     continue;
                 }
             } else {
@@ -203,6 +202,7 @@ int CreateTreeFromFile(Tree ** tree, const char * filename) {
     }
     err_code = AddNodeToTree(ret_pos, new_tree->root, 0, &ret_pos);
     if(err_code){
+        *tree = new_tree;
         free(buf);
         return err_code;
     }

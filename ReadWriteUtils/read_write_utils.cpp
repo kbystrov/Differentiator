@@ -237,7 +237,11 @@ int GetNextNodeFromFile(char * buf, size_t par_level, char ** ret_pos, bool_t le
 
     level = size/BRACE_SPACE_NUM;
     if (level != par_level + 1){
-        return ERR_ADD_NODE_TO_TREE_LEVEL;
+        if(!left && !level){
+            return 0;
+        } else {
+            return ERR_ADD_NODE_TO_TREE_LEVEL;
+        }
     }
 
     *ret_pos = buf;

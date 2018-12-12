@@ -17,29 +17,48 @@ int main() {
     err_code = CreateTree(&diff_tree, TREE_NODES);
     CHECK_ERROR;
     //! ++++++++++++++ Creating digraph from Tree struct test ++++++++++++++++++++++++++++
-    err_code = CreateNode(&tree->root, OP_MUL, OPERATOR, tree);
+    err_code = CreateNode(&tree->root, OP_ARCCTAN, OPERATOR, tree);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root, OP_SUB, OPERATOR, 1);
+    //err_code = AddChild(tree->root, VAR_x, VARIABLE, 1);
+    //CHECK_ERROR;
+
+    err_code = AddChild(tree->root, OP_MUL, OPERATOR, 1);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->left, VAR_x, VARIABLE, 1);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->left, VAR_x, VARIABLE,  0);
+    CHECK_ERROR;
+    /*
+    err_code = AddChild(tree->root->left, VAR_x, VARIABLE, 1);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->left, 3, VALUE, 0);
+    CHECK_ERROR;
+    */
+    /*
+    err_code = AddChild(tree->root, OP_EXP, OPERATOR, 1);
     CHECK_ERROR;
 
     err_code = AddChild(tree->root, OP_MUL, OPERATOR, 0);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root->left, 15, VALUE, 1);
+    err_code = AddChild(tree->root->left, VAR_x, VARIABLE, 1);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root->left, 7, VALUE, 0);
-    CHECK_ERROR;
+    //err_code = AddChild(tree->root->left, 7, VALUE, 0);
+    //CHECK_ERROR;
 
     err_code = AddChild(tree->root->right, VAR_x, VARIABLE, 1);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root->right, 3, VALUE, 0);
+    err_code = AddChild(tree->root->right, VAR_x, VARIABLE, 0);
     CHECK_ERROR;
 
     AddChild(tree->root->left->right, OP_MUL, OPERATOR, 0);
-
+    */
     err_code = WriteDigraphFile("IOFiles/diag_test.txt", tree->root);
     CHECK_ERROR;
     err_code = WriteTreeStruct("IOFiles/tree_struct.txt", tree->root);
