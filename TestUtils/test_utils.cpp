@@ -1,4 +1,5 @@
 #include "test_utils.h"
+#include "../TreeUtils/Node.h"
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 /** @file */
@@ -316,6 +317,140 @@ int WriteNodes(FILE * tree_struct, struct NodeStr * node) {
 
     count--;
     fprintf(tree_struct, "%*s}\n", count*BRACE_SPACE_NUM, "");
+
+    return err_code;
+}
+
+int WriteTexStruct(const char * filename, struct NodeStr  * node) {
+    int err_code = 0;
+    FILE * tree_struct = nullptr;
+
+    if (filename == nullptr){
+        return ERR_WRT_TEX_FILE;
+    }
+
+    if (node == nullptr ){
+        return ERR_WRT_TEX_NODE;
+    }
+
+    tree_struct = fopen(filename, "w");
+    if (tree_struct == nullptr){
+        return ERR_WRT_TEX_FOPEN;
+    }
+
+    fprintf(tree_struct, "%s", tex_start_mask);
+
+    err_code = WriteTexNodes(tree_struct, node, false);
+    CHECK_ERROR;
+
+    fprintf(tree_struct, "%s", tex_end_mask);
+    fclose(tree_struct);
+
+    return err_code;
+}
+
+int WriteTexNodes(FILE * tree_struct, struct NodeStr * node, bool need_bracket) {
+    int err_code = 0;
+    bool child_brack = false;
+
+    if (tree_struct == nullptr){
+        return ERR_WRT_TEX_NODE_FILE;
+    }
+
+    if (node == nullptr ){
+        return ERR_WRT_TEX_NODE_NODE;
+    }
+
+    if(node->type == OPERATOR && node->val == OP_DIV){
+
+        if (node->left && node->right) {
+            if(need_bracket){
+                fprintf(tree_struct, "(");
+            }
+            fprintf(tree_struct, "\\frac{");
+            err_code = WriteTexNodes(tree_struct, node->left, child_brack);
+            CHECK_ERROR;
+            fprintf(tree_struct, "}{");
+            err_code = WriteTexNodes(tree_struct, node->right, child_brack);
+            CHECK_ERROR;
+            fprintf(tree_struct, "}");
+            if(need_bracket){
+                fprintf(tree_struct, ")");
+            }
+        } else {
+            return ERR_WRT_TEX_NODE_NOT_OP_CHLD;
+        }
+
+    } else {
+
+        if (node->left && node->right) {
+            if(need_bracket){
+                fprintf(tree_struct, "(");
+            }
+            if(oper[(int) node->val].priority < oper[(int) node->left->val].priority){
+                child_brack = true;
+            } else {
+                child_brack = false;
+            }
+            err_code = WriteTexNodes(tree_struct, node->left, child_brack);
+            CHECK_ERROR;
+            if (node->type == OPERATOR) {
+                if(node->val != OP_MUL) {
+                    const char *oper_name = nullptr;
+                    err_code = GetOperName(node->val, &oper_name);
+                    CHECK_ERROR;
+                    fprintf(tree_struct, "%s", oper_name);
+                } else {
+                    fprintf(tree_struct, " \\cdot ");
+                }
+            } else {
+                return ERR_WRT_TEX_NODE_NOT_OP_CHLD;
+            }
+            if(oper[(int) node->val].priority < oper[(int) node->right->val].priority){
+                child_brack = true;
+            } else {
+                child_brack = false;
+            }
+            err_code = WriteTexNodes(tree_struct, node->right, child_brack);
+            CHECK_ERROR;
+            if(need_bracket){
+                fprintf(tree_struct, ")");
+            }
+        } else if (node->left) {
+            if(need_bracket){
+                fprintf(tree_struct, "(");
+            }
+            if(oper[(int) node->val].priority < oper[(int) node->left->val].priority){
+                child_brack = true;
+            } else {
+                child_brack = false;
+            }
+            if (node->type == OPERATOR) {
+                const char *oper_name = nullptr;
+                err_code = GetOperName(node->val, &oper_name);
+                CHECK_ERROR;
+                fprintf(tree_struct, "%s", oper_name);
+            } else {
+                return ERR_WRT_TEX_NODE_NOT_OP_CHLD;
+            }
+            err_code = WriteTexNodes(tree_struct, node->left, child_brack);
+            CHECK_ERROR;
+            if(need_bracket){
+                fprintf(tree_struct, ")");
+            }
+        } else {
+            if (node->type == VALUE) {
+                fprintf(tree_struct, "%lg", node->val);
+            } else if (node->type == VARIABLE) {
+                const char *var_name = nullptr;
+                err_code = GetVarName(node->val, &var_name);
+                CHECK_ERROR;
+                fprintf(tree_struct, "%s", var_name);
+            } else {
+                return ERR_WRT_TEX_NODE_WRONG_TYPE;
+            }
+        }
+    }
 
     return err_code;
 }

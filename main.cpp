@@ -17,27 +17,39 @@ int main() {
     err_code = CreateTree(&diff_tree, TREE_NODES);
     CHECK_ERROR;
     //! ++++++++++++++ Creating digraph from Tree struct test ++++++++++++++++++++++++++++
-    err_code = CreateNode(&tree->root, OP_ARCCTAN, OPERATOR, tree);
+    err_code = CreateNode(&tree->root, OP_DIV, OPERATOR, tree);
     CHECK_ERROR;
 
-    //err_code = AddChild(tree->root, VAR_x, VARIABLE, 1);
-    //CHECK_ERROR;
-
-    err_code = AddChild(tree->root, OP_MUL, OPERATOR, 1);
+    err_code = AddChild(tree->root, OP_ARCCOS, OPERATOR, 1);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root->left, VAR_x, VARIABLE, 1);
+    err_code = AddChild(tree->root, OP_LN, OPERATOR, 0);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root->left, VAR_x, VARIABLE,  0);
-    CHECK_ERROR;
-    /*
-    err_code = AddChild(tree->root->left, VAR_x, VARIABLE, 1);
+    err_code = AddChild(tree->root->left, OP_MUL, OPERATOR, 1);
     CHECK_ERROR;
 
-    err_code = AddChild(tree->root->left, 3, VALUE, 0);
+    err_code = AddChild(tree->root->right, OP_DIV, OPERATOR,  1);
     CHECK_ERROR;
-    */
+
+    err_code = AddChild(tree->root->left->left, 3, VALUE, 1);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->left->left, OP_MUL, OPERATOR, 0);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->right->left, 1, VALUE, 1);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->right->left, VAR_x, VARIABLE, 0);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->left->left->right, VAR_x, VARIABLE, 1);
+    CHECK_ERROR;
+
+    err_code = AddChild(tree->root->left->left->right, VAR_x, VARIABLE, 0);
+    CHECK_ERROR;
+
     /*
     err_code = AddChild(tree->root, OP_EXP, OPERATOR, 1);
     CHECK_ERROR;
@@ -92,6 +104,11 @@ int main() {
     CHECK_ERROR;
 
     system("dot -Tpng IOFiles/diff_test.txt -o IOFiles/diff_test.png");
+
+    err_code = WriteTexStruct("IOFiles/infix_test.tex", diff_tree->root);
+    CHECK_ERROR;
+
+    system("cd IOFiles/; pdflatex infix_test.tex");
 
     DeleteTree(tree);
     DeleteTree(diff_tree);

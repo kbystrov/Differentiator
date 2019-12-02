@@ -39,7 +39,7 @@ const static int var_size = (sizeof(variable)/sizeof(variable[0]));
 //********************************************************************************************************************
 
 //********************************************************************************************************************
-#define OP_DEF(name, op, num) OP_##name = num,
+#define OP_DEF(name, op, num, priority) OP_##name = num,
 
 //!@def Is used to automatically fill all operators after adding them into "operators.h"
 typedef enum{
@@ -48,11 +48,12 @@ typedef enum{
 
 #undef OP_DEF
 //********************************************************************************************************************
-#define OP_DEF(name, op, num) {OP_##name, #op},
+#define OP_DEF(name, op, num, priority) {OP_##name, #op, priority},
 
 const static struct {
     OPS oper;
     const char * str;
+    int priority;
 } oper [] = {
 #include "../Common/operators.h"
 };

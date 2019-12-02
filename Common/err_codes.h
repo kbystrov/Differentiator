@@ -23,9 +23,6 @@ const int ERR_NODE_OK_PAR = 10;
 const int ERR_NODE_OK_PAR_TYPE = 11;
 const int ERR_NODE_OK_NONE = 12;
 
-const int ERR_ADD_CHLD_PAR = 10;
-const int ERR_ADD_CHLD_PAR_TREE = 11;
-
 const int ERR_TREE_CRT_IN = 12;
 const int ERR_TREE_CRT_MAX = 13;
 const int ERR_TREE_CRT_MLC = 14;
@@ -80,5 +77,14 @@ const int ERR_DIFF_SUB_TREE_POW_ARGS = 126;
 
 const int ERR_FIND_POWER_BOOL = 130;
 const int ERR_FIND_POWER_TYPE = 131;
+
+const int ERR_WRT_TEX_FILE = 140;
+const int ERR_WRT_TEX_NODE = 141;
+const int ERR_WRT_TEX_FOPEN = 142;
+
+const int ERR_WRT_TEX_NODE_FILE = 160;
+const int ERR_WRT_TEX_NODE_NODE = 161;
+const int ERR_WRT_TEX_NODE_NOT_OP_CHLD =162;
+const int ERR_WRT_TEX_NODE_WRONG_TYPE = 163;
 
 #endif //DIFFERENTIATOR_ERR_CODES_H

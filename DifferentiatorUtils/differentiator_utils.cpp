@@ -86,6 +86,7 @@ int DifferSubTree(Node * node_src, Node ** node_dest, Node * dest_parent, Tree *
                 op_div(node_src, new_node, dest_parent, dest_tree, left);
                 break;
             case OP_POW:
+                //!Additional logic for power operator (when power is constant value and when it is variable - two different derivatives)
                 op_pow_simple(node_src, new_node, dest_parent, dest_tree, left);
                 if(node_src->left && node_src->right){
                     if(node_src->right->type == VALUE){
